@@ -1,8 +1,8 @@
-export interface PatientsRegister {
-    [key: string]: number
-}
+export type PatientsRegister = {
+    [key in PatientState]: number;
+};
 
-enum PatientState {
+export enum PatientState {
     Fever = 'F',
     Healthy = 'H',
     Diabetes = 'D',
@@ -10,7 +10,7 @@ enum PatientState {
     Dead = 'X',
 }
 
-enum Drug {
+export enum Drug {
     Aspirin = 'As',
     Antibiotic = 'An',
     Insulin = 'I',

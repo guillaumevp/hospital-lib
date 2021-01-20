@@ -1,12 +1,23 @@
+//=============================================================================
+// Imports
+//=============================================================================
 
+import {Drug, PatientsRegister, PatientState} from './patientsRegister';
 
-import {PatientsRegister} from './patientsRegister';
+//=============================================================================
+// Exports
+//=============================================================================
 
 /** Class representing a quarantine. */
 export class Quarantine {
 
     /** Class private constants */
     private static readonly NOT_IMPLEMENTED_MESSAGE = 'Work, work.';
+
+    /** Class private variables */
+    patients: PatientsRegister;
+    drugs: Drug[];
+
 
     /**
      * Quarantine class constructor
@@ -15,17 +26,18 @@ export class Quarantine {
      * @constructor
      */
     constructor(patients: PatientsRegister) {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        // Store patients state
+        this.patients = patients;
     }
 
     /**
      * Define which drugs will be given to all patients
      *
-     * @param  {String[]} drugs          array of drugs
+     * @param  {Drug[]} drugs          array of drugs
      * @return {void}
      */
-    public setDrugs(drugs: Array<string>): void {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+    public setDrugs(drugs: Drug[]): void {
+        this.drugs = drugs;
     }
 
     /**
@@ -40,9 +52,39 @@ export class Quarantine {
     /**
      * Return an object describing the current states of the patients, following the same format as the constructor argument.
      *
-     * @return {void}
+     * @return {PatientsRegister}       current states of the patients
      */
     public report(): PatientsRegister {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        return this.patients;
+    }
+
+    /**
+     * Apply a drug to a patient
+     *
+     * @param  {Drug[]} drugs          array of drugs
+     * @param  {PatientState} patientState          current states of the patients
+     *
+     * @return {PatientState}       new states of the patients
+     */
+    private drugEffect(drugs: Drug[], patientState: PatientState): PatientState {
+        // Rules causing Death take precedence over others.
+        if (
+          // Paracetamol kills subject if mixed with aspirin.
+          (drugs.includes(Drug.Paracetamol) && drugs.includes(Drug.Aspirin))
+          // Insulin prevents diabetic subject from dying, does not cure Diabetes;
+          || (patientState === PatientState.Diabetes && !drugs.includes(Drug.Insulin))
+        ) return PatientState.Dead;
+
+        if (
+          // Aspirin cures Fever
+          // Paracetamol cures Fever
+          (patientState === PatientState.Fever && drugs.some(drug => [Drug.Aspirin, Drug.Paracetamol].includes(drug)))
+          // Antibiotic cures Tuberculosis
+          || (patientState === PatientState.Tuberculosis && drugs.includes(Drug.Antibiotic))
+        ) return PatientState.Healthy;
+        // If insulin is mixed with antibiotic, healthy people catch Fever
+        if (patientState === PatientState.Healthy && drugs.includes(Drug.Insulin) && drugs.includes(Drug.Antibiotic)) return PatientState.Fever;
+        // A sick patient not receiving the right medicines remains sick, if not explicitly mentioned otherwise
+        return patientState;
     }
 }
