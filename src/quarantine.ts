@@ -55,7 +55,7 @@ export class Quarantine {
             // Skip if no patients for this state
             if (!this.patients[state]) continue;
             // Calculate new patient state
-            const newState = this.drugEffect(this.drugs, state as PatientState);
+            const newState = this.drugEffect(this.drugs || [], state as PatientState);
             // Init new state number of patients if needed
             if (!newPatients[newState]) newPatients[newState] = 0;
             // Increment new state number of patients

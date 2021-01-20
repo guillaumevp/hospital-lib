@@ -1,5 +1,6 @@
 import {Expect, Setup, Test, TestFixture} from 'alsatian';
 import {Quarantine} from './quarantine';
+import {Drug} from "./patientsRegister";
 
 @TestFixture()
 export class QuarantineTest {
@@ -47,7 +48,7 @@ export class QuarantineTest {
 
   @Test()
   public aspirin(): void {
-    this.quarantine.setDrugs(['As']);
+    this.quarantine.setDrugs([Drug.Aspirin]);
     this.quarantine.wait40Days();
     // aspirin cure Fever
     Expect(this.quarantine.report()).toEqual({
@@ -57,7 +58,7 @@ export class QuarantineTest {
 
   @Test()
   public antibiotic(): void {
-    this.quarantine.setDrugs(['An']);
+    this.quarantine.setDrugs([Drug.Antibiotic]);
     this.quarantine.wait40Days();
     // antibiotic cure Tuberculosis
     // but healthy people catch Fever if mixed with insulin.
@@ -68,7 +69,7 @@ export class QuarantineTest {
 
   @Test()
   public insulin(): void {
-    this.quarantine.setDrugs(['I']);
+    this.quarantine.setDrugs([Drug.Insulin]);
     this.quarantine.wait40Days();
     // insulin prevent diabetic subject from dying, does not cure Diabetes,
     Expect(this.quarantine.report()).toEqual({
@@ -78,7 +79,7 @@ export class QuarantineTest {
 
   @Test()
   public antibioticPlusInsulin(): void {
-    this.quarantine.setDrugs(['An', 'I']);
+    this.quarantine.setDrugs([Drug.Antibiotic, Drug.Insulin]);
     this.quarantine.wait40Days();
     // if insulin is mixed with antibiotic, healthy people catch Fever
     Expect(this.quarantine.report()).toEqual({
@@ -88,7 +89,7 @@ export class QuarantineTest {
 
   @Test()
   public paracetamol(): void {
-    this.quarantine.setDrugs(['P']);
+    this.quarantine.setDrugs([Drug.Paracetamol]);
     this.quarantine.wait40Days();
     // paracetamol heals fever
     Expect(this.quarantine.report()).toEqual({
@@ -98,7 +99,7 @@ export class QuarantineTest {
 
   @Test()
   public paracetamolAndAspirin(): void {
-    this.quarantine.setDrugs(['P', 'As']);
+    this.quarantine.setDrugs([Drug.Paracetamol, Drug.Aspirin]);
     this.quarantine.wait40Days();
     // paracetamol kills subject if mixed with aspirin
     Expect(this.quarantine.report()).toEqual({
