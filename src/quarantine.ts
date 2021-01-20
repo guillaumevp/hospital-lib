@@ -46,7 +46,23 @@ export class Quarantine {
      * @return {void}
      */
     public wait40Days(): void {
-        throw new Error(Quarantine.NOT_IMPLEMENTED_MESSAGE);
+        // Init an immutable patient register
+        const newPatients: PatientsRegister = {};
+        // Loop through patient states
+        for (const state in this.patients) {
+            // Init new state number of patients if needed
+            if (!newPatients[state]) newPatients[state] = 0;
+            // Skip if no patients for this state
+            if (!this.patients[state]) continue;
+            // Calculate new patient state
+            const newState = this.drugEffect(this.drugs, state as PatientState);
+            // Init new state number of patients if needed
+            if (!newPatients[newState]) newPatients[newState] = 0;
+            // Increment new state number of patients
+            newPatients[newState] += this.patients[state];
+        }
+        // Store new patient register
+        this.patients = newPatients;
     }
 
     /**

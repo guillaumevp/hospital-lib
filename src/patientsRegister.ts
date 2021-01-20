@@ -1,5 +1,5 @@
 export type PatientsRegister = {
-    [key in PatientState]: number;
+    [key: string]: number;
 };
 
 export enum PatientState {
