@@ -1,4 +1,4 @@
-export type PatientsRegister = {
+export type Enums = {
     [key: string]: number;
 };
 
