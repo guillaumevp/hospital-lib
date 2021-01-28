@@ -1,2 +1,7 @@
+//=============================================================================
+// Exports
+//=============================================================================
+
 export {Quarantine} from './quarantine';
-export {Enums, PatientState, Drug} from './enums';
+export {PatientState, Drug} from './enums';
+export {Patients} from './interfaces';

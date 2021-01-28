@@ -2,7 +2,8 @@
 // Imports
 //=============================================================================
 
-import {Drug, Enums, PatientState} from './enums';
+import {Drug, PatientState} from './enums';
+import {Patients} from "./interfaces";
 
 //=============================================================================
 // Exports
@@ -15,7 +16,7 @@ export class Quarantine {
     private static readonly NOT_IMPLEMENTED_MESSAGE = 'Work, work.';
 
     /** Class private variables */
-    patients: Enums;
+    patients: Patients;
     drugs: Drug[];
 
 
@@ -25,7 +26,7 @@ export class Quarantine {
      * @param  {Enums} patients          object describing the states of the patients
      * @constructor
      */
-    constructor(patients: Enums) {
+    constructor(patients: Patients) {
         // Store patients state
         this.patients = patients;
     }
@@ -47,7 +48,7 @@ export class Quarantine {
      */
     public wait40Days(): void {
         // Init an immutable patient register
-        const newPatients: Enums = {};
+        const newPatients: Patients = {};
         // Loop through patient states
         for (const state in this.patients) {
             // Init new state number of patients if needed
@@ -70,7 +71,7 @@ export class Quarantine {
      *
      * @return {Enums}       current states of the patients
      */
-    public report(): Enums {
+    public report(): Patients {
         return this.patients;
     }
 
