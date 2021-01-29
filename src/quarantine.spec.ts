@@ -1,6 +1,6 @@
 import {Expect, Setup, Test, TestFixture} from 'alsatian';
 import {Quarantine} from './quarantine';
-import {Drug} from "./patientsRegister";
+import {Drug} from "./enums";
 
 @TestFixture()
 export class QuarantineTest {
